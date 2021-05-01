@@ -1,0 +1,42 @@
+version: '2.4'
+
+x-logging: &logging
+  options:
+    max-size: '1k'
+    max-file: '1'
+    labels: "{{.Name}}"
+  driver: json-file
+
+services:
+  console:
+    image: ruby:2.7
+    environment:
+      RACK_ENV: development
+      APP_ENV: development
+      BUNDLE_PATH: /app/vendor
+      REINDEXER_HOST: reindexer
+    links:
+      - reindexer:reindexer
+    volumes:
+      - bundle:/app/vendor
+      - .:/app:cached
+    working_dir: /app
+    command: bash
+    dns:
+      - 192.168.1.1
+      - 1.1.1.1
+      - 8.8.8.8
+    logging: *logging
+  reindexer:
+    image: reindexer/reindexer:latest
+    ports:
+      - "9088"
+      - "6534"
+      - "16534"
+    expose:
+      - "9088"
+      - "6534"
+      - "16534"
+    logging: *logging
+volumes:
+  bundle:

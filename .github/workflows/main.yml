@@ -1,0 +1,52 @@
+name: Test & Lint
+
+on:
+  [push]
+
+jobs:
+  lint:
+    name: Linting code
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        ruby-version: [2.7.0, 3.0.0, head]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby ${{ matrix.ruby-ruby-version }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Install dependencies
+      run: bundle install
+    - name: Fix ruby version for rubocop
+      run: echo "${{ matrix.ruby-version }}" >> ./.ruby_version
+    - name: Run rubocop
+      run: bundle exec rubocop -D
+
+  test:
+    name: Testing code
+    runs-on: ubuntu-latest
+    services:
+      reindexer:
+        image: reindexer/reindexer:latest
+        ports:
+          - 16534:16534
+    strategy:
+      matrix:
+        ruby-version: [2.7.0, 3.0.0, head]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Ruby ${{ matrix.ruby-ruby-version }}
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ${{ matrix.ruby-version }}
+        bundler-cache: true
+    - name: Install dependencies
+      run: bundle install
+    - name: Download proto
+      run: bundle exec rake reindexer:update_proto
+    - name: Run tests
+      env:
+        REINDEXER_HOST: localhost
+      run: bundle exec rspec spec

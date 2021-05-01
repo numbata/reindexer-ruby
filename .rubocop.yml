@@ -1,0 +1,64 @@
+inherit_mode:
+  merge:
+    - Exclude
+
+require:
+  - rubocop-performance
+  - rubocop-rake
+  - rubocop-rspec
+
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'lib/reindexer-grpc_pb.rb'
+    - 'lib/reindexer-grpc_services_pb.rb'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - '**/*.gemspec'
+    - '**/*.rake'
+
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/MultipleExpectations:
+  Enabled: false
+Gemspec/RequiredRubyVersion:
+  Enabled: false
+Style/Documentation:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: leading
+Layout/FirstArrayElementLineBreak:
+  Enabled: true
+Layout/FirstHashElementLineBreak:
+  Enabled: true
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: true
+Layout/FirstMethodParameterLineBreak:
+  Enabled: true
+Layout/FirstParameterIndentation:
+  Enabled: true
+Layout/LineLength:
+  Max: 120
+Layout/MultilineArrayBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+Layout/MultilineHashBraceLayout:
+  Enabled: true
+  EnforcedStyle: new_line
+Layout/MultilineMethodCallBraceLayout:
+  Enabled: true
+  EnforcedStyle: symmetrical
+Layout/MultilineMethodDefinitionBraceLayout:
+  Enabled: true
+  EnforcedStyle: symmetrical
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+Metrics/MethodLength:
+  Max: 20

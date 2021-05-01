@@ -1,0 +1,18 @@
+name: Publish gem
+
+on:
+  workflow_run:
+    workflows: ['Test & Lint']
+    branches: [main]
+    types: [completed]
+
+jobs:
+  on-success:
+    name: Publishing the gem
+    environment: production
+    concurrency: gem_publishing
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Test
+      run: echo "Publish with success 🎉"
