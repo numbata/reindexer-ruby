@@ -11,14 +11,15 @@ Gem::Specification.new do |spec|
   spec.email         = ['subbota@gmail.com']
   spec.platform      = Gem::Platform::RUBY
 
-  spec.summary       = 'Reindexer GRPC-client'
-  spec.description   = 'A client that allows to interact with the Reindexer document-oriented database'
+  spec.summary       = 'Reindexer gRPC-client'
+  spec.description   = 'A gRPC-client that allows to interact with the Reindexer document-oriented database'
+
   spec.homepage      = 'https://github.com/numbata/reindexer-ruby'
-  spec.license = 'Apache-2.0'
-  spec.metadata = {
-    'bug_tracker_uri' => 'https://github.com/numbata/reindexer-ruby/issues',
-    'changelog_uri' => 'https://github.com/numbata/reindexer-ruby/blob/master/CHANGELOG.md',
-    'source_code_uri' => 'https://github.com/numbata/reindexer-ruby'
+  spec.license       = 'Apache-2.0'
+  spec.metadata      = {
+    'bug_tracker_uri' => "#{spec.homepage}/issues",
+    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md",
+    'source_code_uri' => spec.homepage
   }
   spec.required_ruby_version = Gem::Requirement.new('>= 2')
 

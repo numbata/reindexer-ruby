@@ -1,9 +1,11 @@
 [![Gem](https://img.shields.io/gem/v/reindexer.svg)](https://rubygems.org/gems/reindexer/)
 ![Reindexer](https://github.com/numbata/reindexer-ruby/actions/workflows/main.yml/badge.svg)
 
-# Reindexer
+# Reindexer Ruby
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/reindexer`. To experiment with that code, run `bin/console` for an interactive prompt.
+gRPC client for work with [reindexer](https://github.com/Restream/reindexer). It is still in alpha state and there are a lot of works to do. So using in a prod environment is not recomended.
+
+The gem also wraps the arguments of gRPC requests into the gRPC messages. So you should not care about the toons of nested initializations. Just give a common hash and the gem will do all the work.
 
 ## Installation
 
@@ -15,51 +17,48 @@ gem 'reindexer'
 
 And then execute:
 
-    $ bundle
+```bash
+bundle
+```
 
 Or install it yourself as:
 
-    $ gem install reindexer
+```bash
+gem install reindexer
+```
 
 ## Usage
 
-    client = ReindexerGrpc::Client.new('grpc://reindexer:16534')
-
-    client.create_database(db_name: 'test_db')
-    client.open_namespace(db_name: 'test_db', storage_options: {ns_name: 'items'})
-    client.add_index(db_name: 'test_db', ns_name: 'items', definition: {
-      name: 'id',
-      json_paths: ['id'],
-      index_type: 'hash',
-      field_type: 'int',
-      options: {
-        is_pk: true,
-        is_array: false,
-        is_dense: false,
-        is_sparse: false,
-        collate_mode: 'CollateUTF8Mode',
-        sort_order_labled: '',
-        config: ''
-      },
-      expire_after: nil
-    })
-
-    client.modify_item([
-      {db_name: 'test_db', ns_name: 'items', mode: :UPSERT, data: JSON.dump(id: 1, name: 'Name')},
-      {db_name: 'test_db', ns_name: 'items', mode: :UPSERT, data: JSON.dump(id: 2, name: 'BestName')}
-    ])
-    stream = client.select_sql(db_name: 'test_db', sql: 'SELECT * FROM items', output_flags: {with_rank: true})
-
-
-## Development
-
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+```ruby
+client = ReindexerGrpc::Client.new('grpc://reindexer:16534')
+client.create_database(db_name: 'test_db')
+client.open_namespace(db_name: 'test_db', storage_options: {ns_name: 'items'})
+client.add_index(db_name: 'test_db', ns_name: 'items', definition: {
+  name: 'id',
+  json_paths: ['id'],
+  index_type: 'hash',
+  field_type: 'int',
+  options: {
+    is_pk: true,
+    is_array: false,
+    is_dense: false,
+    is_sparse: false,
+    collate_mode: 'CollateUTF8Mode',
+    sort_order_labled: '',
+    config: ''
+  },
+  expire_after: nil
+})
+client.modify_item([
+  {db_name: 'test_db', ns_name: 'items', mode: :UPSERT, data: JSON.dump(id: 1, name: 'Name')},
+  {db_name: 'test_db', ns_name: 'items', mode: :UPSERT, data: JSON.dump(id: 2, name: 'BestName')}
+])
+stream = client.select_sql(db_name: 'test_db', sql: 'SELECT * FROM items', output_flags: {with_rank: true})
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/numbata/reindexer-ruby.
+If you have any questions about Reindexer, please use [main page](https://github.com/Restream/reindexer) of Reindexer. Feel free to report issues and contribute about Reindexer Ruby at https://github.com/numbata/reindexer-ruby.
 
 ## License
 
