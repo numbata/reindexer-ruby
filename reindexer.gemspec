@@ -30,7 +30,6 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'grpc', '~> 1.0'
-  spec.add_dependency 'multi_json', '~> 1.15'
 
   spec.add_development_dependency 'google-protobuf', '~> 3.15'
   spec.add_development_dependency 'grpc-tools', '~> 1.0'
