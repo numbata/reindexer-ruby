@@ -11,4 +11,3 @@
 /lib/reindexer-grpc_services_pb.rb
 /proto
 .rspec_status
-Gemfile.lock

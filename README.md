@@ -30,7 +30,7 @@ gem install reindexer
 ## Usage
 
 ```ruby
-client = ReindexerGrpc::Client.new('grpc://reindexer:16534')
+client = Reindexer::Client.new('grpc://reindexer:16534')
 client.create_database(db_name: 'test_db')
 client.open_namespace(db_name: 'test_db', storage_options: {ns_name: 'items'})
 client.add_index(db_name: 'test_db', ns_name: 'items', definition: {
