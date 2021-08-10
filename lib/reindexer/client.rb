@@ -77,7 +77,7 @@ module Reindexer
         key_name = [name.to_sym, self.class.build_request_name(name)].find { |n| options.key?(n) }
         next if key_name.nil?
 
-        accum[name] = build_grpc_option_value(field_descriptor, options[key_name])
+        accum[name.to_sym] = build_grpc_option_value(field_descriptor, options[key_name])
       end
 
       request_klass.new(**request_options)
