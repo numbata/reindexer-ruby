@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Updates of README.md and gemspec
 
+## [0.0.3] - 2022-06-23
+### Changed
+- Update dependencies
+
 ## [0.0.2] - 2021-06-01
 ### Changed
 - Get rid of useless dependency
