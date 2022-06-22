@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.metadata      = {
     'bug_tracker_uri' => "#{spec.homepage}/issues",
     'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md",
-    'source_code_uri' => spec.homepage
+    'source_code_uri' => spec.homepage,
+    'rubygems_mfa_required' => 'true'
   }
   spec.required_ruby_version = Gem::Requirement.new('>= 2')
 
@@ -31,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'grpc', '~> 1.0'
 
-  spec.add_development_dependency 'google-protobuf', '>= 3.19'
+  spec.add_development_dependency 'google-protobuf', '~> 3.21'
   spec.add_development_dependency 'grpc-tools', '~> 1.0'
   spec.add_development_dependency 'pry-byebug', '~> 3.9'
   spec.add_development_dependency 'rake', '~> 12.3'
