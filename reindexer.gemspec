@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.metadata      = {
     'bug_tracker_uri' => "#{spec.homepage}/issues",
     'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md",
-    'source_code_uri' => spec.homepage
+    'source_code_uri' => spec.homepage,
+    'rubygems_mfa_required' => 'true'
   }
   spec.required_ruby_version = Gem::Requirement.new('>= 2')
 
