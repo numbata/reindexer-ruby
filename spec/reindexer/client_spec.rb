@@ -28,7 +28,7 @@ RSpec.describe Reindexer::Client do
     ]
   end
 
-  it 'works' do
+  it 'indexes and retrieve items' do
     client.create_database(db_name: 'test_db')
     client.drop_namespace(db_name: 'test_db', ns_name: 'items')
     client.open_namespace(db_name: 'test_db', storage_options: {ns_name: 'items'})
