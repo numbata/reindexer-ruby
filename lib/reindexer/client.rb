@@ -44,6 +44,18 @@ module Reindexer
       )
     end
 
+    def host
+      config[:host]
+    end
+
+    def port
+      config[:port]
+    end
+
+    def database
+      config[:database]
+    end
+
     private
 
     def json_adapter

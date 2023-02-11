@@ -41,6 +41,7 @@ RSpec.describe Reindexer::Client do
     stream = client.select_sql(db_name: 'test_db', sql: 'SELECT * FROM items', output_flags: {with_rank: true})
     result = stream.to_a.first
     data = JSON.parse(result.data, symbolize_names: true)
+
     expect(data[:items])
       .to include(id: 1, name: 'Name')
       .and include(id: 2, name: 'BestName')

@@ -14,7 +14,7 @@ services:
       RACK_ENV: development
       APP_ENV: development
       BUNDLE_PATH: /app/vendor
-      REINDEXER_HOST: reindexer
+      REINDEXER_URL: reindexer:15534
     links:
       - reindexer:reindexer
     volumes:
@@ -28,11 +28,11 @@ services:
     ports:
       - "9088"
       - "6534"
-      - "16534"
+      - "16534:16534"
     expose:
-      - "9088"
-      - "6534"
-      - "16534"
+      - "9088:9088"
+      - "6534:6534"
+      - "16534:16534"
     logging: *logging
 
 volumes:
