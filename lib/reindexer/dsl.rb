@@ -7,8 +7,9 @@ module Reindexer
         @namespace = Reindexer::Namespace.new(name: name || self.caller.class_name.downcase.to_sym, &blank)
       end
 
-      def index_search(query)
-        raise "Index is not defined" if @namespace.nil?
+      # TODO: drafty draft. Should be extracted
+      def index_search(_query)
+        raise 'Index is not defined' if @namespace.nil?
 
         stream = Reindexer.client.select_sql(
           db_name: ::Reindexer.client.database,
@@ -16,16 +17,7 @@ module Reindexer
           output_flags: {with_rank: true}
         )
 
-        Enumerator.new do |results|
-          stream.each do |raw_items|
-            items =  JSON.parse(raw_items.data, symbolize_names: true)
-            next unless items.key?(:items)
-
-            items[:items].each do |item|
-              results << item
-            end
-          end
-        end
+        extract_results(stream)
       end
 
       def index_create!
@@ -34,6 +26,25 @@ module Reindexer
 
       def index_update!(item)
         @namespace.add(item)
+      end
+
+      private
+
+      # TODO: Should be a part of SearchSomethingSomething
+      def extract_results(stream)
+        Enumerator.new do |results|
+          stream.each do |raw_items|
+            items = ::Reindexer
+              .json_backend
+              .parse(raw_items.data, symbolize_names: true)
+
+            next unless items.key?(:items)
+
+            items[:items].each do |item|
+              results << item
+            end
+          end
+        end
       end
     end
 

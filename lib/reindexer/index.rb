@@ -12,10 +12,7 @@ module Reindexer
       config: ''
     }.freeze
 
-    attr_reader :name
-    attr_reader :options
-    attr_reader :type
-    attr_reader :value_method
+    attr_reader :name, :options, :type, :value_method
 
     def initialize(name, type, **options, &block)
       @name = name
@@ -36,7 +33,7 @@ module Reindexer
       ::Reindexer.client.add_index(
         db_name: ::Reindexer.client.database,
         ns_name: namespace.name,
-        definition:
+        definition: definition
       )
     end
 
@@ -46,19 +43,12 @@ module Reindexer
         json_paths: [name],
         index_type: options.fetch(:index_type, 'hash'),
         field_type: type.to_s,
-        options: index_options,
+        options: index_options
       }
     end
 
     def extract_value(item)
-      value =
-        if !value_method.nil?
-          value_method.call(item)
-        elsif item.respond_to?(name.to_sym)
-          item.send(name.to_sym)
-        else
-          item[index.name]
-        end
+      value = fetch_value(item)
 
       if options[:array]
         value.map { |i| cast_value(i) }
@@ -83,6 +73,16 @@ module Reindexer
         when :collate_mode, :sort_order_labled, :config
           accum[key] = value
         end
+      end
+    end
+
+    def fetch_value(item)
+      if !value_method.nil?
+        value_method.call(item)
+      elsif item.respond_to?(name.to_sym)
+        item.send(name.to_sym)
+      else
+        item[index.name]
       end
     end
 

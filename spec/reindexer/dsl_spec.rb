@@ -7,7 +7,7 @@ RSpec.describe Reindexer::Dsl do
 
       reindex :items do
         index :id, :int, primary_key: true
-        index :name, :text, value: -> (obj) { obj.name.downcase }
+        index :name, :text, value: ->(obj) { obj.name.downcase }
         index :comments, [:text]
 
         # Alternative (???)
@@ -24,11 +24,11 @@ RSpec.describe Reindexer::Dsl do
     klass.index_create!
   end
 
-  context ".index_update!" do
+  describe '.index_update!' do
     let(:objects) do
       [
         klass.new(id: 1, name: 'Name', comments: ['Comment A', 'Comment B']),
-        klass.new(id: 2, name: 'Surname', comments: ['Comment C']),
+        klass.new(id: 2, name: 'Surname', comments: ['Comment C'])
       ]
     end
 
@@ -38,7 +38,7 @@ RSpec.describe Reindexer::Dsl do
       sleep 0.5
     end
 
-    it "updates index successfuly" do
+    it 'updates index successfuly' do
       result = klass.index_search('foo').to_a
 
       expect(result)
@@ -47,7 +47,7 @@ RSpec.describe Reindexer::Dsl do
     end
   end
 
-  context "#index_update!" do
+  describe '#index_update!' do
     let(:obj) { klass.new(id: 1, name: 'Name', comments: ['Comment A', 'Comment B']) }
 
     before do
@@ -57,7 +57,7 @@ RSpec.describe Reindexer::Dsl do
       sleep 0.5
     end
 
-    it "updates index successfuly" do
+    it 'updates index successfuly' do
       result = klass.index_search(obj.name).to_a
 
       expect(result)

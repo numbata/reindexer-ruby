@@ -10,13 +10,15 @@ module Reindexer
   autoload :Index, 'reindexer/index'
 
   class << self
+    attr_reader :client
+
     def configure(options)
       @client = ::Reindexer::Client.new(options)
     end
-    alias :config :configure
+    alias config configure
 
-    def client
-      @client
+    def json_backend
+      @json_backend ||= defined?(MultiJSON) ? MultiJSON : JSON
     end
   end
 end

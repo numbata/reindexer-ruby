@@ -24,17 +24,17 @@ module Reindexer
     end
 
     def add(item)
-        ::Reindexer.client.modify_item(
-          [
-            {
-              db_name: ::Reindexer.client.database,
-              ns_name: name,
-              mode: :UPSERT,
-              data: build_data(item)
+      ::Reindexer.client.modify_item(
+        [
+          {
+            db_name: ::Reindexer.client.database,
+            ns_name: name,
+            mode: :UPSERT,
+            data: build_data(item)
 
-            }
-          ]
-        )
+          }
+        ]
+      )
     end
 
     private
@@ -46,7 +46,7 @@ module Reindexer
         accum[index.name] = index.extract_value(item_copy)
       end
 
-      (defined?(MultiJSON) ? MultiJSON : JSON).dump(data)
+      ::Reindexer.json_backend.dump(data)
     end
   end
 end
