@@ -1,21 +1,20 @@
 # frozen_string_literal: true
 
 require 'reindexer/version'
+require 'reindexer/client'
+require 'reindexer/config'
+require 'reindexer/dsl'
+require 'reindexer/namespace'
+require 'reindexer/index'
+require 'reindexer/adapters/grpc'
 
 module Reindexer
-  autoload :Client, 'reindexer/client'
-
-  autoload :Dsl, 'reindexer/dsl'
-  autoload :Namespace, 'reindexer/namespace'
-  autoload :Index, 'reindexer/index'
-
   class << self
     attr_reader :client
 
-    def configure(options)
-      @client = ::Reindexer::Client.new(options)
+    def connect(options)
+      @client = ::Reindexer::Client.build(options)
     end
-    alias config configure
 
     def json_backend
       @json_backend ||= defined?(MultiJSON) ? MultiJSON : JSON

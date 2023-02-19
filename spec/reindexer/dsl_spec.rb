@@ -9,19 +9,14 @@ RSpec.describe Reindexer::Dsl do
         index :id, :int, primary_key: true
         index :name, :text, value: ->(obj) { obj.name.downcase }
         index :comments, [:text]
-
-        # Alternative (???)
-        # int :id, primary_key: true
-        # text :name, -> { name.downcase }
-        # text [:comments
       end
     end
   end
+  let(:client) { Reindexer.connect("grpc://#{ENV.fetch('REINDEXER_HOST', 'localhost')}:16534/test_db") }
 
   before do
-    Reindexer.configure("grpc://#{ENV.fetch('REINDEXER_HOST', 'localhost')}:16534/test_db")
-    Reindexer.client.drop_namespace(db_name: 'test_db', ns_name: 'items')
-    klass.index_create!
+    client.drop_namespace(db_name: 'test_db', ns_name: 'items')
+    klass.reindex.create!
   end
 
   describe '.index_update!' do
@@ -33,13 +28,13 @@ RSpec.describe Reindexer::Dsl do
     end
 
     before do
-      objects.each { |obj| klass.index_update!(obj) }
+      objects.each { |obj| klass.reindex.add(obj) }
       # Wait for indexing
       sleep 0.5
     end
 
     it 'updates index successfuly' do
-      result = klass.index_search('foo').to_a
+      result = klass.reindex.search("name LIKE '%Name'").to_a
 
       expect(result)
         .to include(hash_including(id: 1, name: 'name'))
@@ -47,18 +42,16 @@ RSpec.describe Reindexer::Dsl do
     end
   end
 
-  describe '#index_update!' do
+  describe '#reindex_update!' do
     let(:obj) { klass.new(id: 1, name: 'Name', comments: ['Comment A', 'Comment B']) }
 
     before do
-      obj.index_update!
-
-      # Wait for indexing
+      obj.reindex_update!
       sleep 0.5
     end
 
     it 'updates index successfuly' do
-      result = klass.index_search(obj.name).to_a
+      result = klass.reindex.search("name = '#{obj.name.downcase}'").to_a
 
       expect(result)
         .to include(hash_including(id: 1, name: 'name'))
