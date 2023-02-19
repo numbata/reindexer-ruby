@@ -61,8 +61,8 @@ GEM
     rubocop-performance (1.16.0)
       rubocop (>= 1.7.0, < 2.0)
       rubocop-ast (>= 0.4.0)
-    rubocop-rake (0.5.1)
-      rubocop
+    rubocop-rake (0.6.0)
+      rubocop (~> 1.0)
     rubocop-rspec (2.17.0)
       rubocop (~> 1.33)
     ruby-progressbar (1.11.0)
@@ -72,7 +72,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  google-protobuf (~> 3.21)
+  google-protobuf (>= 3.21)
   grpc-tools (~> 1.0)
   pry-byebug (~> 3.9)
   rake (~> 12.3)

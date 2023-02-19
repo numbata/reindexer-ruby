@@ -32,7 +32,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'grpc', '~> 1.0'
 
-  spec.add_development_dependency 'google-protobuf', '~> 3.21'
+  spec.add_development_dependency 'google-protobuf', '>= 3.21'
   spec.add_development_dependency 'grpc-tools', '~> 1.0'
   spec.add_development_dependency 'pry-byebug', '~> 3.9'
   spec.add_development_dependency 'rake', '~> 12.3'
